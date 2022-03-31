@@ -54,7 +54,7 @@ namespace DogGo.Controllers
         // POST: WalkersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Owner owner)
         {
             try
             {
@@ -64,6 +64,7 @@ namespace DogGo.Controllers
             {
                 return View();
             }
+          
         }
 
         // GET: WalkersController/Edit/5
@@ -107,5 +108,6 @@ namespace DogGo.Controllers
                 return View();
             }
         }
+
     }
 }

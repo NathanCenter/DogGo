@@ -63,7 +63,16 @@ public class OwnersController : Controller
         // GET: OwnersController/Create
         public ActionResult Create()
         {
-            return View();
+            List<Neighborhood> neighborhoods = _neighborhoodRepo.GetAll();
+
+            OwnerFormViewModel vm = new OwnerFormViewModel()
+            {
+
+                Neighborhoods = neighborhoods,
+                Owner =new Owner()
+            };
+
+            return View(vm);
         }
 
         // POST: OwnersController/Create
