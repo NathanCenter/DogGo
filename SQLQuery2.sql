@@ -1,2 +1,6 @@
-﻿INSERT INTO Owner(Name,Email,Address,Phone, NeighborhoodId) Values
-('Nae','Nat@aol.com','626 spilt rail dr','123-12322',1)
+﻿ INSERT INTO Dog([Name], Breed, Notes, ImageUrl, OwnerId)
+                    OUTPUT INSERTED.ID
+                    VALUES (@name, @breed, @notes, imageurl, @ownerId)
+UPDATE Dog SET [Name] = @name, Breed = @breed, Notes = @notes, ImageUrl = @imageUrl, 
+OwnerId = ownerId
+WHERE Id = @id
