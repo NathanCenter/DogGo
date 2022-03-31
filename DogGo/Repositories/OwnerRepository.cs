@@ -107,7 +107,7 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT  o.Id, o.Email,o.Name, o.Address,o.Phone, o.NeighborhoodId, n.Name as NeighborhoodName
+                        SELECT  o.Id, o.Name,o.Email,o.Phone,o.Address, o.NeighborhoodId, n.Name as NeighborhoodName
                 FROM Owner o left join Neighborhood N 
                 on N.id=o.NeighborhoodId
                     Where o.Email=@email
