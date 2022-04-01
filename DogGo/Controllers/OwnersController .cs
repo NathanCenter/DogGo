@@ -77,8 +77,9 @@ public class OwnersController : Controller
 
         // POST: OwnersController/Create
         // POST: Owners/Create
-        [HttpPost]
         [ValidateAntiForgeryToken]
+        [HttpPost]
+        
         public ActionResult Create(Owner owner)
         {
             try

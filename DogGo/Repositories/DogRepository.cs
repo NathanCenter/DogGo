@@ -208,7 +208,10 @@ namespace DogGo.Repositories
                         ";
                     cmd.Parameters.AddWithValue("@id", dogId);
                     cmd.ExecuteNonQuery();
+
+
                 }
+
             }
         }
 
