@@ -4,24 +4,51 @@ using DogGo.Repositories;
 using System.Collections.Generic;
 using DogGo.Models;
 using DogGo.Models.ViewModels;
+using System.Security.Claims;
+using System.Linq;
+
 namespace DogGo.Controllers
 {
     public class WalkersController : Controller
     {
-
+        private readonly IOwnerRepository _ownerRepo;
+        private readonly IDogRepository _dogRepo;
         private readonly IWalkerRepository _walkerRepo;
+        private readonly INeighborhoodRepository _neighborhoodRepo;
+        public WalkersController(
+                   IOwnerRepository ownerRepository,
+                   IDogRepository dogRepository,
+                   IWalkerRepository walkerRepository,
+                   INeighborhoodRepository neighborhoodRepository
+                   )
 
-        // ASP.NET will give us an instance of our Walker Repository. This is called "Dependency Injection"
-        public WalkersController(IWalkerRepository walkerRepository)
         {
+            _ownerRepo = ownerRepository;
+            _dogRepo = dogRepository;
             _walkerRepo = walkerRepository;
+            _neighborhoodRepo = neighborhoodRepository;
         }
         // GET: WalkersController
         public ActionResult Index()
         {
-            List<Walker> walkers = _walkerRepo.GetAllWalkers();
 
-            return View(walkers);
+            //Update the Index method in the walkers controller so that owners only see walkers in their own neighborhood. 
+            int ownerId = GetCurrentUserId();
+    
+            List<Walker> walkers = _walkerRepo.GetAllWalkers();
+            if (ownerId != 0)
+            {
+                Owner owner=_ownerRepo.GetOwnerById(ownerId);
+                List<Walker> listByNeighborhood = walkers.Where(w => w.NeighborhoodId == owner.NeighborhoodId).ToList();
+
+                return View(listByNeighborhood);
+            }
+            else
+            {
+                return View(walkers);
+            }
+
+           
         }
 
         // GET: WalkersController/Details/5
@@ -108,6 +135,19 @@ namespace DogGo.Controllers
                 return View();
             }
         }
-
+        private int GetCurrentUserId()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (id == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return int.Parse(id);
+            }
+            
+          
+        }
     }
 }
